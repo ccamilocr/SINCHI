@@ -14,15 +14,17 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('logout', function()
+{ 	
+  	Auth::logout();
+	return Redirect::to('/'); 
+});
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/hola', function () {	
-	
+	Auth::logout();
 	return "hola";
 });
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
