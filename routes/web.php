@@ -28,3 +28,5 @@ Route::get('/hola', function () {
 	Auth::logout();
 	return "hola";
 });
+
+Route::get('/dashboard', 'dashboardController@index')->name('dashboard');
