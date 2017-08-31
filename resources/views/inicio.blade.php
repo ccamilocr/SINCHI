@@ -80,12 +80,7 @@
             <div class="content">
                 <div class="title m-b-md">
                   <img src="img/marca SINCHI 2016-01.png" width="200" class="img-responsive" alt="logosinchi">
-                </div>
-                
-                
-                
-
-                
+                </div>                
             </div>
         </div>
         

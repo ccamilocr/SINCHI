@@ -17,7 +17,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'id','name', 'email', 'iniciales', 'rol', 'password',
     ];
     //funcion para recuperar la contraseña
     public function sendPasswordResetNotification($token)

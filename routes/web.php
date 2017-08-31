@@ -10,19 +10,27 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+//Ruta del index
 Route::get('/', function () {
-    return view('welcome');
+    return view('inicio');
+});
+
+Route::get('logout', function()
+{ 	
+  	Auth::logout();
+	return Redirect::to('/'); 
 });
 
 Auth::routes();
+
+//rutas que necesitan estar logueado
+Route::group(['middleware' => 'auth'], function (){
+	Route::get('dashboard','EmprendimientosController@DashboardGeneral');
+});
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/hola', function () {	
-	
+	Auth::logout();
 	return "hola";
 });
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

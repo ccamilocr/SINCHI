@@ -38,6 +38,37 @@
                             </div>
                         </div>
 
+                        <div class="form-group{{ $errors->has('iniciales') ? ' has-error' : '' }}">
+                            <label for="iniciales" class="col-md-4 control-label">Iniciales</label>
+
+                            <div class="col-md-6">
+                                <input id="iniciales" type="text" class="form-control" name="iniciales" value="{{ old('iniciales') }}" required autofocus>
+
+                                @if ($errors->has('iniciales'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('iniciales') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+                        <div class="form-group{{ $errors->has('rol') ? ' has-error' : '' }}">
+                            <label for="rol" class="col-md-4 control-label">Rol</label>
+                            
+                            <div class="col-md-6">
+                                <select id="rol" class="form-control" name="rol">
+                                    <option value="" selected="selected">Por favor seleccione</option>                                
+                                    <option value="Administrador">Administrador</option>
+                                    <option value="Consultor">Consultor</option>                                
+                                </select>
+                                
+                                @if ($errors->has('rol'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('rol') }}</strong>
+                                    </span>
+                                @endif
+                            </div>
+                        </div>
+
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="col-md-4 control-label">Contraseña</label>
 
