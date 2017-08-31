@@ -20,12 +20,17 @@ Route::get('logout', function()
   	Auth::logout();
 	return Redirect::to('/'); 
 });
+Route::get('logout', function()
+{ 	
+  	Auth::logout();
+	return Redirect::to('/'); 
+});
 
 Auth::routes();
 
 //rutas que necesitan estar logueado
 Route::group(['middleware' => 'auth'], function (){
-	Route::get('dashboard','EmprendimientosController@DashboardGeneral');
+	Route::get('dashboard1','EmprendimientosController@DashboardGeneral');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -34,3 +39,6 @@ Route::get('/hola', function () {
 	Auth::logout();
 	return "hola";
 });
+
+Route::get('/dashboard', 'dashboardController@index')->name('dashboard');
+
