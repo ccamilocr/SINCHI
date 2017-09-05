@@ -10,16 +10,15 @@
 
     <title>{{ config('app.name', 'Sinchi') }}</title>
 
-    <!-- Bootstrap core CSS -->    
-    <link href="{{ asset('assets/css/bootstrap.css') }}" rel="stylesheet">
-    
+    <!-- Bootstrap core CSS -->
+    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
     <!-- Custom styles for this template -->
-    <link href="{{ asset('assets/css/2-col-portfolio.css') }}" rel="stylesheet">
+    <link href="assets/css/portfolio-item.css" rel="stylesheet">
     
   </head>
 
   <body>
-
+    
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
       <div class="container">
@@ -163,9 +162,9 @@
     </footer>
 
     <!-- Bootstrap core JavaScript -->
-    <script src="{{ asset('assets/js/bootstrap.min.js') }}"></script>
-    <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/js/popper.min.js') }}"></script>
+    <script src="assets/vendor/jquery/jquery.min.js"></script>
+    <script src="assets/vendor/popper/popper.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
     
 
   </body>
