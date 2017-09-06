@@ -24,12 +24,12 @@
       @yield('content')
     </div>
     <!-- /.container -->
-    @include('includes.footer')
-    <!-- Bootstrap core JavaScript -->
-    <script src="assets/vendor/jquery/jquery.min.js"></script>
-    <script src="assets/vendor/popper/popper.min.js"></script>
-    <script src="assets/vendor/bootstrap/js/bootstrap.min.js"></script>
-    @yield('js')
+    @include('includes.footer')      
   </body>
-
+<!-- Bootstrap core JavaScript -->
+<script src="assets/jquery/jquery.min.js"></script>
+<script src="assets/popper/popper.min.js"></script>
+<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="assets/highchart/js/highcharts.js"></script>  
+@yield('js')
 </html>
