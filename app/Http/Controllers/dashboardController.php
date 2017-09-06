@@ -14,6 +14,12 @@ class dashboardController extends Controller
      */
     public function index()
     {
+        $departamento=db::table('emprendimientos')
+                        ->join('departamento','emprendimientos.departamento','departamento.cod_dpto')
+                        ->select(db::raw('departamento.nom_dpto,emprendimientos.departamento, count(emprendimientos.departamento) as registros'))                        
+                        ->groupby('departamento.nom_dpto', 'emprendimientos.departamento')
+                        ->orderby('nom_dpto')
+                        ->get();
 
         $reg_per_depto=db::table('emprendimientos')
                         ->join('departamento','emprendimientos.departamento','departamento.cod_dpto')
@@ -26,7 +32,7 @@ class dashboardController extends Controller
                             ->select('anoconstruccemprend')
                             ->get();
 
-        return view('pages.dashboard',array('reg_per_depto'=>$reg_per_depto, 'anio_constitucion'=>$anio_constitucion));
+        return view('pages.dashboard',array('departamento'=>$departamento,'reg_per_depto'=>$reg_per_depto, 'anio_constitucion'=>$anio_constitucion));
     }
 
     

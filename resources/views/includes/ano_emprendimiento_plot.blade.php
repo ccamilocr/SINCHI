@@ -15,7 +15,7 @@ $(anio_constitucion).each(function(i){
 });
 
 anio_constitucion=[['>2010',p_2010],['2000-2009',p_2000_2010],['1990-1999',p_1990_2000],['<1990',p_1990]]
-console.log(anio_constitucion)
+
 Highcharts.chart('constitucion_plot', {
     chart: {        
         type: 'pie'

@@ -11,7 +11,7 @@
     <title>{{ config('app.name', 'Sinchi') }}</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="assets/css/portfolio-item.css" rel="stylesheet">
     @yield('style')
