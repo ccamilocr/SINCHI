@@ -20,36 +20,37 @@
 <!-- <h1 style="text-align: center;">Dashboard</h1><br> -->
 <!-- En esta secccion inician los filtros de la informacion -->
 <div id="accordion" role="tablist">
-  <div class="card">
-    <div class="card-header" role="tab" id="headingOne">
-      <h5 class="mb-0">
-        <a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Aplicar filtros
-        </a>
-      </h5>
-    </div>
-    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
-      	<div class="card-body">
-        	<div class="row">
-				<div class="col-sm-6">
-					<label id="labeldpto" for="Proceso" class="control-label">Departamento:</label>
-					<select id="select_depto" class="form-control" onchange="filtro_departamento(this)">
-						<option value="">Seleccione un departamento</option>
-						@foreach($departamento as $pro)		
-							<option value="{{$pro->departamento}}">{{$pro->nom_dpto}}</option>
-						@endforeach
-					</select>		
+  	<div class="card">
+	    <div class="card-header" role="tab" id="headingOne">
+	      	<h5 class="mb-0">
+	        	<a data-toggle="collapse" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+	          		Aplicar filtros
+	        	</a>
+	      	</h5>
+	    </div>
+	    <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne" data-parent="#accordion">
+	      	<div class="card-body">
+	        	<div class="row">
+					<div class="col-sm-6">
+						<label id="labeldpto" for="Proceso" class="control-label">Departamento:</label>
+						<select id="select_depto" class="form-control" onchange="list_municipios(this)">
+							<option value="00">Seleccione un departamento</option>
+							@foreach($departamento as $pro)		
+								<option value="{{$pro->departamento}}">{{$pro->nom_dpto}}</option>
+							@endforeach
+						</select>		
+					</div>
+					<div class="col-sm-6">
+						<label id="labelmpio" for="Proceso" class="control-label">Municipio:</label>
+						<select id="select_mpio" class="form-control">
+							<option value="00">Seleccione un municipio</option>			
+						</select>		
+					</div>
 				</div>
-				<div class="col-sm-6">
-					<label id="labelmpio" for="Proceso" class="control-label">Municipio:</label>
-					<select class="form-control">
-						<option value="">Seleccione un municipio</option>			
-					</select>		
-				</div>
-			</div>
-      	</div>
-    </div>
-  </div>
+				<br><button type="button" class="btn btn-primary" style="float: right;" onclick="filtros()">Aplicar filtro</button><br>
+	      	</div>
+	    </div>
+	</div>
 </div><br>
 <!-- Fin de os filtros -->
 <!-- Inicio del reporte --> 
@@ -69,9 +70,56 @@
 @include('includes.departamentos_plot')
 @include('includes.ano_emprendimiento_plot')
 <script type="text/javascript">
-	function filtro_departamento(element){
+	function list_municipios(element){
 		var depto=$('#select_depto').prop('selected', 'selected').val();
-		console.log(depto);
+		
+		$.ajax({// update deforest vs agriculture overview plot
+	  		url:"municipios_list",   // the url where we want to POST
+	  		type:"POST",   // define the type of HTTP verb we want to use (P
+			beforeSend: function (xhr) {//This function is necessary to ajax 
+				var token = $('meta[name="csrf_token"]').attr('content');
+				if (token) {
+					return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+				}
+			},
+	  		data:{depto:depto},  // our data object
+	  		//dataType:'json',  //what type of data do we expect back from the server
+			success:function(data){ //return array of controller URL
+				$('#select_mpio').empty();
+				$('#select_mpio').append('<option value="00">Seleccione un municipio</option>');
+				$(data).each(function(i){
+					$('#select_mpio').append('<option value="'+data[i].cod_dane+'">'+data[i].nom_mpio+'</option>')
+				});
+			},	    	
+			error:function(){
+				alert('error');
+			}
+		});
 	}
+
+	function filtros(){
+		var depto=$('#select_depto').prop('selected', 'selected').val();
+		var mpio=$('#select_mpio').prop('selected', 'selected').val();
+		var filtros=[depto,mpio];
+		$.ajax({// update deforest vs agriculture overview plot
+	  		url:"filtros",   // the url where we want to POST
+	  		type:"POST",   // define the type of HTTP verb we want to use (P
+			beforeSend: function (xhr) {//This function is necessary to ajax 
+				var token = $('meta[name="csrf_token"]').attr('content');
+				if (token) {
+					return xhr.setRequestHeader('X-CSRF-TOKEN', token);
+				}
+			},
+	  		data:{filtros:filtros},  // our data object
+	  		//dataType:'json',  //what type of data do we expect back from the server
+			success:function(data){ //return array of controller URL
+				console.log(data)
+			},	    	
+			error:function(){
+				alert('error');
+			}
+		});
+	}
+
 </script>
 @endsection

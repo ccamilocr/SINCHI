@@ -14,6 +14,16 @@
     <link href="assets/bootstrap/css/bootstrap.css" rel="stylesheet">
     <!-- Custom styles for this template -->
     <link href="assets/css/portfolio-item.css" rel="stylesheet">
+    <script src="assets/jquery/jquery.min.js"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <script type="text/javascript">
+      //THIS SECTION IS FOR THE AJAX CONECTION
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              }
+      });
+    </script> 
     @yield('style')
   </head>
   <body>
@@ -27,7 +37,7 @@
     @include('includes.footer')      
   </body>
 <!-- Bootstrap core JavaScript -->
-<script src="assets/jquery/jquery.min.js"></script>
+
 <script src="assets/popper/popper.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/highchart/js/highcharts.js"></script>  

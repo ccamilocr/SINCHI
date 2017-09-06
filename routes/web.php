@@ -56,4 +56,7 @@ Route::get('/hola', function () {
 });
 
 Route::get('/dashboard', 'dashboardController@index')->name('dashboard');
+Route::post('municipios_list', 'dashboardController@municipios_list')->name('municipios_list');
+Route::post('filtros', 'dashboardController@filtros')->name('filtros');
+
 

@@ -35,5 +35,24 @@ class dashboardController extends Controller
         return view('pages.dashboard',array('departamento'=>$departamento,'reg_per_depto'=>$reg_per_depto, 'anio_constitucion'=>$anio_constitucion));
     }
 
+    public function municipios_list(Request $request){
+
+        $depto=$request->input('depto');
+
+        $municipios=db::table('emprendimientos')
+                        ->join('municipio','emprendimientos.municipio','municipio.cod_dane')
+                        ->select(db::raw('municipio.nom_mpio,emprendimientos.municipio as cod_dane, count(emprendimientos.municipio) as registros'))
+                        ->where('emprendimientos.departamento','=',$depto)                        
+                        ->groupby('municipio.nom_mpio', 'emprendimientos.municipio')
+                        ->orderby('nom_mpio')
+                        ->get();
+
+        return $municipios;
+    }
+
+    public function filtros(){
+        
+    }
+
     
 }
