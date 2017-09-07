@@ -57,7 +57,7 @@
 <h1 id="tittle_dashboard" style="text-align: center;">Reporte Nacional</h1><br>
 <div class="row">
 	<div class="col col-md-6">
-		<div class="header_plot">Encuestas por departamento</div>
+		<div class="header_plot">Encuestas por unidad territorial</div>
 		<div id="departamentos_plot" style="height: 400px"></div>
 	</div>
 	<div class="col col-md-6">
@@ -70,6 +70,11 @@
 @include('includes.departamentos_plot')
 @include('includes.ano_emprendimiento_plot')
 <script type="text/javascript">
+	$( document ).ready(function() {
+		//EJECUTA LA FUNCION FILTRO PARA QUE CARGUE LOS DATOS NACIONALES
+		filtros();
+	});
+
 	function list_municipios(element){
 		var depto=$('#select_depto').prop('selected', 'selected').val();
 		
@@ -113,7 +118,16 @@
 	  		data:{filtros:filtros},  // our data object
 	  		//dataType:'json',  //what type of data do we expect back from the server
 			success:function(data){ //return array of controller URL
-				console.log(data)
+				
+				if(filtros[0]!='00'){
+					if(filtros[1]!="00"){
+						$('#tittle_dashboard').html('Reporte del municipio de ' + $('#select_mpio option[value='+filtros[1]+']').text() + ", " + $('#select_depto option[value='+filtros[0]+']').text())
+					} else{
+						$('#tittle_dashboard').html('Reporte del departamento de ' + $('#select_depto option[value='+filtros[0]+']').text());
+					}
+				} 
+
+				plot_reg_per_unidad(data.reg_per_unidad,filtros);
 			},	    	
 			error:function(){
 				alert('error');
