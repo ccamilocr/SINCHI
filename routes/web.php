@@ -26,7 +26,7 @@ Auth::routes();
 
 //rutas que necesitan estar logueado
 Route::group(['middleware' => 'auth'], function (){	
-	Route::get('dashboard', 'dashboardController@index')->name('dashboard');
+	//Route::get('dashboard', 'dashboardController@index')->name('dashboard');
 	Route::get('registro', function () {
 	    return view('auth.register');
 	});
@@ -41,4 +41,6 @@ Route::group(['middleware' => 'auth'], function (){
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
+Route::get('/dashboard', 'dashboardController@index')->name('dashboard');
+Route::post('municipios_list', 'dashboardController@municipios_list')->name('municipios_list');
+Route::post('filtros', 'dashboardController@filtros')->name('filtros');
