@@ -112,10 +112,34 @@ class dashboardController extends Controller
             $dedicacion->where('anoconstruccemprend','=',$year);
         }
 
-
         $dedicacion_query=$dedicacion->get();
 
-        return array('reg_per_unidad'=>$query_unidad,'dedicacion_query'=>$dedicacion_query);
+        //3. Listado de emprendimientos
+
+        $emprendimientos=db::table('emprendimientos')
+                            ->select('nombreemprendimiento','nombrereplegal','apellidoreplegal');
+
+        //Filtra la consulta por departamento y/o municipio
+        if($depto!="00"){            
+            $emprendimientos->where('emprendimientos.departamento','=',$depto);                           
+            if($mpio!='00'){
+                $emprendimientos->where('emprendimientos.municipio','=',$mpio);
+            }
+        }
+
+        //Filtra la consulta con la dedicacion del emprendimiento
+        if($dedica!='00'){
+            $emprendimientos->where('dedicaempren','=',$dedica);
+        }
+
+        //Filtra la consulta por el anio de constitucion de la empresa
+        if($year!='00'){
+            $emprendimientos->where('anoconstruccemprend','=',$year);
+        }
+
+        $emprendimientos_query=$emprendimientos->get();
+
+        return array('reg_per_unidad'=>$query_unidad,'dedicacion_query'=>$dedicacion_query,'emprendimientos_query'=>$emprendimientos_query);
     }
 
     

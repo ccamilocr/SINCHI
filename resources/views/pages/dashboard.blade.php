@@ -115,15 +115,23 @@
 		<div class="header_plot">¿A qué se dedica el emprendimiento?</div>
 		<div id="dedicacion_plot" style="height: 400px"></div>
 	</div>
-</div>
+</div><br>
+<div class="row">
+	<div class="col col-md-12">
+		<div class="header_plot">Listado de emprendimientos</div>
+		<div id="table_div"></div>
+	</div>	
+</div><br>
 @endsection
 @section('js')
 <script type='text/javascript' src="{{ URL::asset('assets/js/colombia_line.js')}}"></script>
 <script type='text/javascript' src="{{ URL::asset('assets/js/deptos.js')}}"></script>
 <script type='text/javascript' src="{{ URL::asset('assets/js/mpios.js')}}"></script>
+
 @include('includes.departamentos_plot')
 @include('includes.dedicacion_plot')
 @include('includes.map_dashboard')
+@include('includes.listado')
 
 <script type="text/javascript">
 	$( document ).ready(function() {
@@ -186,7 +194,8 @@
 				} 
 				load_map(data.reg_per_unidad,filtros);
 				plot_reg_per_unidad(data.reg_per_unidad,filtros);
-				dedicacion(data.dedicacion_query,filtros)
+				dedicacion(data.dedicacion_query,filtros);
+				listado_emprendimientos(data.emprendimientos_query,filtros);
 			},	    	
 			error:function(){
 				alert('error');
