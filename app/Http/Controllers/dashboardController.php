@@ -100,8 +100,18 @@ class dashboardController extends Controller
             if($mpio!='00'){
                 $dedicacion->where('emprendimientos.municipio','=',$mpio);
             }
-
         }
+
+        //Filtra la consulta con la dedicacion del emprendimiento
+        if($dedica!='00'){
+            $dedicacion->where('dedicaempren','=',$dedica);
+        }
+
+        //Filtra la consulta por el anio de constitucion de la empresa
+        if($year!='00'){
+            $dedicacion->where('anoconstruccemprend','=',$year);
+        }
+
 
         $dedicacion_query=$dedicacion->get();
 
