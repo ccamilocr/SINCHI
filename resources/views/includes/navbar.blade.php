@@ -7,17 +7,25 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Dashboard
-                <span class="sr-only">(current)</span>
-              </a>
-            </li>            
-            <li class="nav-item">
-              <a class="nav-link" href="#">Editar</a>
+            
+            @if (Auth::guest())
+              <li class="nav-item"><a lass="nav-link" href="{{ route('login') }}">Iniciar sesión</a></li>                            
+            @else
+            <li class="nav-item active dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} </a>
+              <div class="dropdown-menu" aria-labelledby="dropdown01">                                   
+                @if (Auth::user()->rol=='Administrador')
+                    <a class="dropdown-item" href="{{ url('/registro') }}">Registro</a>
+                @endif
+                    <a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a>    
+                    <a class="dropdown-item" href="{{ url('/editarborrar') }}"> Editar registros</a>
+                    <a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesión</a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        {{ csrf_field() }}
+                    </form>
+              </div>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Admin</a>
-            </li>
+            @endif
           </ul>
         </div>
       </div>
