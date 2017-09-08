@@ -1,8 +1,10 @@
+@if(Auth::check() AND Auth::user()->rol=='Administrador')<!--muestra el contenido de la página si esta autenticado-->
 @extends('layouts.app')
 
 @section('content')
 <div class="container">
     <div class="row">
+        
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
                 <div class="panel-heading">Registro</div>
@@ -105,3 +107,4 @@
     </div>
 </div>
 @endsection
+@endif<!--Cierra el if de mostrar el contenido de la página si esta autenticado-->

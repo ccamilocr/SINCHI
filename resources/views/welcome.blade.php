@@ -71,8 +71,7 @@
                     @if (Auth::check())
                         <a href="{{ url('/home') }}">Inicio</a>
                     @else
-                        <a href="{{ url('/login') }}">Iniciar sesión</a>
-                        
+                        <a href="{{ url('/login') }}">Iniciar sesión</a>                        
                     @endif
                     @if (!Auth::guest())
                         <a href="{{ url('/register') }}">Registro</a>
@@ -82,10 +81,13 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                  <img src="img/marca SINCHI 2016-01.png" height="300" class="img-responsive" alt="logosinchi">
-                  <img src="img/marca Negocios Amazónicos-01.png" height="300" class="img-responsive" alt="logosinchi2">
-                  
-                </div>                
+                  <img src="img/marca SINCHI 2016-01.png" width="200" class="img-responsive" alt="logosinchi">
+                </div>
+                
+                
+                
+
+                
             </div>
         </div>
         
