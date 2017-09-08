@@ -87,6 +87,7 @@ class CreateEmprendimientosTable extends Migration
             //DATOS_APROVECHAMIENTO_RESENA            
         //postgresql
             $table->string('resena')->index('emprendimientos_geom_idx');
+            $table->timestamps();
         //sqlite
             //$table->string('resena');
             //$table->string('geom')->nullable()->index('emprendimientos_geom_idx');
