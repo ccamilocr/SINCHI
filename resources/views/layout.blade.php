@@ -7,7 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
+    <!-- Leaflet style CSS -->
+    <link href="assets/css/leaflet.css" rel="stylesheet">
     <title>{{ config('app.name', 'Sinchi') }}</title>
 
     <!-- Bootstrap core CSS -->
@@ -40,6 +41,7 @@
 
 <script src="assets/popper/popper.min.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-<script src="assets/highchart/js/highcharts.js"></script>  
+<script src="assets/highchart/js/highcharts.js"></script>
+<script src="assets/js/leaflet.js"></script>
 @yield('js')
 </html>

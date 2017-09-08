@@ -1,32 +1,33 @@
 <script type="text/javascript">
-function plot_reg_per_unidad(datos,filtros){
-    var reg_per_depto=[];
+function dedicacion(dedicacion,filtros){
+    console.log(dedicacion)
+    var datos=[];
+    $(dedicacion).each(function(i){
+        if(dedicacion[i].dedicaempren=="1"){
+            datos[i]=["Producir",parseInt(dedicacion[i].registros)];            
+        } else if(dedicacion[i].dedicaempren=="2"){
+           datos[i]=["Colectar",parseInt(dedicacion[i].registros)];             
+        } else if(dedicacion[i].dedicaempren=="3"){
+           datos[i]=["Procesar",parseInt(dedicacion[i].registros)];             
+        } else {
+           datos[i]=["Comercializar",parseInt(dedicacion[i].registros)];              
+        }
+    });
     
+    Highcharts.setOptions({
+        colors: ['#923A48', '#BE5A6A', '#D4909C', '#F0DADD']
+    });
 
-    if(filtros[0]!='00'){
-        //Grafica por municipios
-        $(datos).each(function(i){            
-            reg_per_depto[i]=[datos[i].nom_mpio,parseInt(datos[i].registros_mpio)]
-        });
-    } else {
-        //Grafica por departamentos
-        $(datos).each(function(i){
-            reg_per_depto[i]=[datos[i].nom_dpto,parseInt(datos[i].registros_depto)]
-        });
-    }
-    
-    
-    Highcharts.chart('departamentos_plot', {
+    Highcharts.chart('dedicacion_plot', {
         chart: {        
-            type: 'column'
+            type: 'pie'
         },
         title: {
             text: ''
         },    
         xAxis: {
             type: 'category',
-            labels: {
-                
+            labels: {                
                 style: {
                     fontSize: '13px',
                     fontFamily: 'Verdana, sans-serif'
@@ -35,7 +36,7 @@ function plot_reg_per_unidad(datos,filtros){
         },
         yAxis: {        
             title: {
-                text: 'Número de encuestas'
+                text: 'Número de emprendimientos'
             }
         },
         legend: {
@@ -51,16 +52,14 @@ function plot_reg_per_unidad(datos,filtros){
             pointFormat: '<b>{point.y}</b>'
         },
         series: [{
-            name: 'Departamento',
+            name: 'Tipo',
             color: 'rgb(136, 136, 136)',
-            data: reg_per_depto,
+            data: datos,
             dataLabels: {
                 enabled: true,
                 rotation: 0,
                 color: '#FFFFFF',
-                
-                format: '{point.y}', // one decimal
-                y: 20, // 10 pixels down from the top
+                //y: 20, // 10 pixels down from the top
                 style: {
                     fontSize: '10px',
                     fontFamily: 'Verdana, sans-serif'

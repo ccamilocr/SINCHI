@@ -13,6 +13,30 @@
 	margin: 10px 0 20px 0;
 }
 
+.legend {
+    line-height: 18px;
+    color: #555;
+}
+.legend i {
+    width: 14px;
+    height: 14px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+}
+
+.info {
+    padding: 6px 8px;
+    font: 12px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
 </style>
 @endsection
 @section('content')
@@ -46,6 +70,27 @@
 							<option value="00">Seleccione un municipio</option>			
 						</select>		
 					</div>
+				</div><br>
+				<div class="row">
+					<div class="col-sm-6">
+						<label id="labeldpto" for="Proceso" class="control-label">A qué se dedica el emprendimiento</label>
+						<select id="select_dedica" class="form-control" onchange="list_municipios(this)">
+							<option value="00">Seleccione una opción</option>
+							<option value="1">Producir</option>
+							<option value="2">Colectar</option>
+							<option value="3">Procesar</option>
+							<option value="4">Comercializar </option>
+						</select>		
+					</div>
+					<div class="col-sm-6">
+						<label id="labelmpio" for="Proceso" class="control-label">Año de constitución del emprendimiento</label>
+						<select id="select_year" class="form-control">
+							<option value="00">Seleccione un año</option>
+							@foreach($anio_constitucion_select as $pro)		
+								<option value="{{$pro->anoconstruccemprend}}">{{$pro->year}}</option>
+							@endforeach			
+						</select>		
+					</div>
 				</div>
 				<br><button type="button" class="btn btn-primary" style="float: right;" onclick="filtros()">Aplicar filtro</button><br>
 	      	</div>
@@ -56,19 +101,30 @@
 <!-- Inicio del reporte --> 
 <h1 id="tittle_dashboard" style="text-align: center;">Reporte Nacional</h1><br>
 <div class="row">
+	<div class="col col-md-12">
+		<div class="header_plot">Encuestas por unidad territorial</div>
+		<div id='map' style="height: 500px"></div>
+	</div>	
+</div><br>
+<div class="row">
 	<div class="col col-md-6">
 		<div class="header_plot">Encuestas por unidad territorial</div>
 		<div id="departamentos_plot" style="height: 400px"></div>
 	</div>
 	<div class="col col-md-6">
-		<div class="header_plot">Periodo de constitución del emprendimiento</div>
-		<div id="constitucion_plot" style="height: 400px"></div>
+		<div class="header_plot">¿A qué se dedica el emprendimiento?</div>
+		<div id="dedicacion_plot" style="height: 400px"></div>
 	</div>
 </div>
 @endsection
 @section('js')
+<script type='text/javascript' src="{{ URL::asset('assets/js/colombia_line.js')}}"></script>
+<script type='text/javascript' src="{{ URL::asset('assets/js/deptos.js')}}"></script>
+<script type='text/javascript' src="{{ URL::asset('assets/js/mpios.js')}}"></script>
 @include('includes.departamentos_plot')
-@include('includes.ano_emprendimiento_plot')
+@include('includes.dedicacion_plot')
+@include('includes.map_dashboard')
+
 <script type="text/javascript">
 	$( document ).ready(function() {
 		//EJECUTA LA FUNCION FILTRO PARA QUE CARGUE LOS DATOS NACIONALES
@@ -105,7 +161,9 @@
 	function filtros(){
 		var depto=$('#select_depto').prop('selected', 'selected').val();
 		var mpio=$('#select_mpio').prop('selected', 'selected').val();
-		var filtros=[depto,mpio];
+		var dedica=$('#select_dedica').prop('selected', 'selected').val();
+		var year=$('#select_year').prop('selected','selected').val();
+		var filtros=[depto,mpio,dedica,year];
 		$.ajax({// update deforest vs agriculture overview plot
 	  		url:"filtros",   // the url where we want to POST
 	  		type:"POST",   // define the type of HTTP verb we want to use (P
@@ -126,8 +184,9 @@
 						$('#tittle_dashboard').html('Reporte del departamento de ' + $('#select_depto option[value='+filtros[0]+']').text());
 					}
 				} 
-
+				load_map(data.reg_per_unidad,filtros);
 				plot_reg_per_unidad(data.reg_per_unidad,filtros);
+				dedicacion(data.dedicacion_query,filtros)
 			},	    	
 			error:function(){
 				alert('error');
