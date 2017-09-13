@@ -8,8 +8,8 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ml-auto">
             
-            @if (Auth::guest())
-              <li class="nav-item"><a lass="nav-link" href="{{ route('login') }}">Iniciar sesión</a></li>                            
+            @if (Auth::guest())            
+              <li class="nav-item active"><a class="nav-link" href="{{ route('login') }}">Iniciar sesión</a></li>                            
             @else
             <li class="nav-item active dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }} </a>
