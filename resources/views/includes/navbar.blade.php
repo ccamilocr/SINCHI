@@ -16,9 +16,16 @@
               <div class="dropdown-menu" aria-labelledby="dropdown01">                                   
                 @if (Auth::user()->rol=='Administrador')
                     <a class="dropdown-item" href="{{ url('/registro') }}">Registro</a>
+                    <a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a>
+                    <a class="dropdown-item" href="{{ url('/editarborrar') }}"> Editar registros</a>
                 @endif
+                @if (Auth::user()->rol=='Colector')
                     <a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a>    
                     <a class="dropdown-item" href="{{ url('/editarborrar') }}"> Editar registros</a>
+                @endif
+                @if (Auth::user()->rol=='Consultor')
+                    <a class="dropdown-item" href="{{ url('/dashboard') }}">Dashboard</a> 
+                @endif                    
                     <a class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Cerrar sesión</a>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}

@@ -39,10 +39,10 @@ class EmprendimientosController extends Controller
 
         //$emprendimientos = emprendimientos::all();
         
-        $emprendimientos = DB::table('emprendimientos')
-            ->orderBy('gid', 'desc')
+        $emprendimientos = DB::table('emprendimientos')            
             ->where('encuestador', Auth::user()->iniciales)
             ->where('borrado', 1)
+            ->orderBy('gid', 'desc')
             ->get();     
         
         return View('pages.editarborrar')->with(['emprendimientos' => $emprendimientos]);       
@@ -119,7 +119,9 @@ class EmprendimientosController extends Controller
     public function destroy(Request $request)
     {
         //dd($request->all());
-
+        $this->validate($request, [
+            'id_borrar'=>'required'
+        ]);
         //emula el borrado del registro para q no le salga mas a la persona
         //se puede recuperar cambiando directamente el dato en la base de datos por 1
         $fecha = date("Y-m-d H:i:s");

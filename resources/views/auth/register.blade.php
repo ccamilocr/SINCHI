@@ -59,7 +59,8 @@
                             <select id="rol" class="form-control" name="rol">
                                 <option value="" selected="selected">Por favor seleccione</option>                                
                                 <option value="Administrador">Administrador</option>
-                                <option value="Consultor">Consultor</option>                                
+                                <option value="Consultor">Consultor</option>
+                                <option value="Consultor">Colector</option>                                
                             </select>
                             
                             @if ($errors->has('rol'))
