@@ -68,12 +68,36 @@ class EmprendimientosController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        //dd($request->emprendimientokey);
         /*
         $this->validate($request, [
-
+            emprendimientokey
         ]);
         */
+        $emprendimientoedit = DB::table('emprendimientos')            
+            ->where('key', $request->emprendimientokey)            
+            ->get();
+        $encuestador = DB::table('users')            
+            ->where('rol', 'Colector')
+            ->orderBy('name', 'asc')            
+            ->get();
+        $departamento = DB::table('departamento')            
+            ->orderBy('nom_dpto', 'asc')            
+            ->get();
+        $municipio = DB::table('municipio')
+            ->where('cod_dpto', $emprendimientoedit[0]->departamento)
+            ->orderBy('nom_mpio', 'asc')            
+            ->get();
+        $tipoducu = DB::table('tipo_documento')                     
+            ->get();
+        $especie = DB::table('especie')                     
+            ->get();
+
+        $frecuencia = DB::select('SELECT "_PARENT_AURI","VALUE" FROM "DIREC23S_V3_DATOS_APROVECHAMIENTO_ESTACIONALIDAD_PRODUCTO" WHERE "_PARENT_AURI"='."'".$request->emprendimientokey."'");
+
+        $arraydombobox= array($emprendimientoedit, $encuestador, $departamento, $municipio, $tipoducu, $especie, $frecuencia);
+        //return $arraydombobox;
+        return View('pages.editar')->with(['arraydombobox' => $arraydombobox]);        
     }
 
     /**
@@ -105,9 +129,9 @@ class EmprendimientosController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**

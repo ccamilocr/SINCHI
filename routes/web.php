@@ -36,7 +36,7 @@ Route::group(['middleware' => 'auth'], function (){
 	
 	Route::name('actualizarregistro')->get('actualizarregistro','EmprendimientosController@edit');
 	Route::name('store_actualizarregistro')->post('store_actualizarregistro','EmprendimientosController@store');
-
+	Route::name('updateregistro')->post('updateregistro','EmprendimientosController@update');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
