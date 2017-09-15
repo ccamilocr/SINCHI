@@ -29,46 +29,119 @@ function colombia_style(feature) {
     };
 }
 
-function load_map(datos,filtros){
+function load_map(datos,filtros,points){
 	try {				
 		map.removeLayer(deptos_layer_query);
-		map.removeLayer(mpios_layer_query);						
+		map.removeLayer(mpios_layer_query);	
+        map.removeLayer(points_query);					
 	} catch(err) {    	  	
 	}
 	
 
 	if(filtros[0]!='00'){
-        //Mapa por municipios
-        geojson_mpios={
-			type: 'FeatureCollection',
-	        features: []
-		};
-		console.log(datos)
-		console.log(mpios_vector)
-		$(datos).each(function(i){
-            var muni_query=datos[i].cod_dane;            
-            $(mpios_vector.features).each(function(j){
-            	var muni_temp=mpios_vector.features[j].properties.cod_codane;            	
-            	if(muni_temp==muni_query){
-            		objeto={
-						type: 'Feature',
-				   		properties: {				   			
-			                'nombre_depto': datos[i].nom_dpto,
-			                'nombre_mpio': datos[i].nom_mpio,
-			                'registros': parseInt(datos[i].registros_mpio),
-				   		},
-				   		geometry: mpios_vector.features[j].geometry
-				   	}
-				   	var x=geojson_mpios.features.length				
-					geojson_mpios.features[x]=objeto	
-            	}
-            });            
-        });
-        mpios_layer_query = new L.geoJson(geojson_mpios,{style: style, onEachFeature: mpios_interaction}).addTo(map);
-        map.fitBounds(mpios_layer_query.getBounds());
+        if(filtros[1]!='00'){
+            //Mapa departamental
+            //cargar capa municipal
+            geojson_mpios={
+                type: 'FeatureCollection',
+                features: []
+            };
+            $(datos).each(function(i){
+                var muni_query=datos[i].cod_dane;            
+                $(mpios_vector.features).each(function(j){
+                    var muni_temp=mpios_vector.features[j].properties.cod_codane;               
+                    if(muni_temp==muni_query){
+                        objeto={
+                            type: 'Feature',
+                            properties: {                                                       
+                                'nombre_mpio': datos[i].nom_mpio,
+                                'registros': parseInt(datos[i].registros_mpio),
+                            },
+                            geometry: mpios_vector.features[j].geometry
+                        }
+                        var x=geojson_mpios.features.length             
+                        geojson_mpios.features[x]=objeto    
+                    }
+                });            
+            });
+            mpios_layer_query = new L.geoJson(geojson_mpios,{style: style, onEachFeature: mpios_interaction}).addTo(map);
+            map.fitBounds(mpios_layer_query.getBounds());
+            //Cargar las coordenadas de la capa de puntos
+            geojson_points={
+                type: 'FeatureCollection',
+                features: []
+            };
+            $(points).each(function(i){
+                objeto={
+                    type: 'Feature',
+                    properties: {                                                       
+                        'nombre_mpio': datos[i].nom_mpio,
+                        'registros': parseInt(datos[i].registros_mpio),
+                    },
+                    geometry: jQuery.parseJSON(points[i].point)
+                }
+                var x=geojson_points.features.length             
+                geojson_points.features[x]=objeto
+            });
+            points_query = new L.geoJson(geojson_points,{}).addTo(map);
+        } else {
+            //Mapa departamental
+            //cargar capa municipal
+            geojson_mpios={
+                type: 'FeatureCollection',
+                features: []
+            };
+            $(datos).each(function(i){
+                var muni_query=datos[i].cod_dane;            
+                $(mpios_vector.features).each(function(j){
+                    var muni_temp=mpios_vector.features[j].properties.cod_codane;               
+                    if(muni_temp==muni_query){
+                        objeto={
+                            type: 'Feature',
+                            properties: {                                                       
+                                'nombre_mpio': datos[i].nom_mpio,
+                                'registros': parseInt(datos[i].registros_mpio),
+                            },
+                            geometry: mpios_vector.features[j].geometry
+                        }
+                        var x=geojson_mpios.features.length             
+                        geojson_mpios.features[x]=objeto    
+                    }
+                });            
+            });
+            mpios_layer_query = new L.geoJson(geojson_mpios,{style: style, onEachFeature: mpios_interaction}).addTo(map);
+            //Cargar capa de departamentos tipo linea
+            geojson_deptos_line={
+                type: 'FeatureCollection',
+                features: []
+            };
+            $(datos).each(function(i){
+                var depto_query=(datos[i].cod_dane).substring(0, 2) ;            
+                $(deptos_line_vector.features).each(function(j){
+                    var depto_temp=deptos_line_vector.features[j].properties.COD_DEPTO;                                         
+                    if(depto_temp==depto_query){
+                        objeto={
+                            type: 'Feature',
+                            properties: {
+                                'cod_depto': datos[i].departamento,
+                                'nombre': datos[i].nom_dpto,                            
+                                'registros': parseInt(datos[i].registros_depto),
+                            },
+                            geometry: deptos_line_vector.features[j].geometry
+                        }
+                        console.log(objeto)
+                        var x=geojson_deptos_line.features.length                
+                        geojson_deptos_line.features[x]=objeto   
+                    }
+                });            
+            });
+            deptos_layer_query = new L.geoJson(geojson_deptos_line,{style: style_line}).addTo(map);
+            map.fitBounds(deptos_layer_query.getBounds()); 
+        }
+            
 
     } else {
-        //Mapa por departamentos        
+        //Mapa Nacional        
         geojson_deptos={
 			type: 'FeatureCollection',
 	        features: []
@@ -105,7 +178,7 @@ function deptos_interaction(feature, layer) {
 }
 
 function mpios_interaction(feature, layer) {
-  var dato="<table class='table table_leaflet'><tr><td class='table_leaflet_tittle'>Departamento:</td><td>" + feature.properties.nombre_depto + "</td></tr><tr><td class='table_leaflet_tittle'>Municipio:</td><td>" + feature.properties.nombre_mpio + "</td></tr><tr><td class='table_leaflet_tittle'>Encuentas:</td><td>" + feature.properties.registros + "</td></tr></table>";  
+  var dato="<table class='table table_leaflet'><tr><td class='table_leaflet_tittle'>Municipio:</td><td>" + feature.properties.nombre_mpio + "</td></tr><tr><td class='table_leaflet_tittle'>Encuentas:</td><td>" + feature.properties.registros + "</td></tr></table>";  
   layer.bindTooltip(dato);
   //layer.bindPopup(dato);
 }
@@ -118,6 +191,15 @@ function style(feature) {
         color: 'white',
         dashArray: '3',
         fillOpacity: 0.7
+    };
+}
+
+function style_line(feature) {
+    return {        
+        weight: 2,
+        opacity: 1,
+        color: 'black',
+        dashArray: '2',        
     };
 }
 

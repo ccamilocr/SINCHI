@@ -1,23 +1,19 @@
 <script type="text/javascript">
-function dedicacion(dedicacion,filtros){    
-    var datos=[];
-    $(dedicacion).each(function(i){
-        if(dedicacion[i].dedicaempren=="1"){
-            datos[i]=["Producir",parseInt(dedicacion[i].registros)];            
-        } else if(dedicacion[i].dedicaempren=="2"){
-           datos[i]=["Colectar",parseInt(dedicacion[i].registros)];             
-        } else if(dedicacion[i].dedicaempren=="3"){
-           datos[i]=["Procesar",parseInt(dedicacion[i].registros)];             
+function tipo_producto(t_producto){
+	var datos=[];
+    $(t_producto).each(function(i){
+        if(t_producto[i].tipoproducto=="1"){
+            datos[i]=["Cultivado",parseInt(t_producto[i].registros)];            
         } else {
-           datos[i]=["Comercializar",parseInt(dedicacion[i].registros)];              
+           datos[i]=["Silvestre",parseInt(t_producto[i].registros)];             
         }
     });
-    
+
     Highcharts.setOptions({
-        colors: ['#923A48', '#BE5A6A', '#D4909C', '#F0DADD']
+        colors: ['#923A48', '#F0DADD']
     });
 
-    Highcharts.chart('dedicacion_plot', {
+    Highcharts.chart('tipo_cultivo_plot', {
         chart: {        
             type: 'pie'
         },

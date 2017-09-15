@@ -13,6 +13,7 @@ function listado_emprendimientos(listado,filtros){
 	table.attr('id', 'example');
 	$('#table_div').append(table);
 	$('#table_div').addClass('table');
+	table.DataTable();
 
 }
 </script>

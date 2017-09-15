@@ -1,23 +1,22 @@
 <script type="text/javascript">
-function dedicacion(dedicacion,filtros){    
-    var datos=[];
-    $(dedicacion).each(function(i){
-        if(dedicacion[i].dedicaempren=="1"){
-            datos[i]=["Producir",parseInt(dedicacion[i].registros)];            
-        } else if(dedicacion[i].dedicaempren=="2"){
-           datos[i]=["Colectar",parseInt(dedicacion[i].registros)];             
-        } else if(dedicacion[i].dedicaempren=="3"){
-           datos[i]=["Procesar",parseInt(dedicacion[i].registros)];             
+function tipo_de_territorio(t_territorio){
+	var datos=[];
+    $(t_territorio).each(function(i){
+        if(t_territorio[i].tipodeterritorio=="resguardo"){
+            datos[i]=["Resguardo",parseInt(t_territorio[i].registros)];            
+        } else if(t_territorio[i].tipodeterritorio=="vereda"){
+           datos[i]=["Vereda",parseInt(t_territorio[i].registros)];             
         } else {
-           datos[i]=["Comercializar",parseInt(dedicacion[i].registros)];              
-        }
-    });
-    
-    Highcharts.setOptions({
-        colors: ['#923A48', '#BE5A6A', '#D4909C', '#F0DADD']
+           datos[i]=["Centro Poblado",parseInt(t_territorio[i].registros)];             
+        } 
     });
 
-    Highcharts.chart('dedicacion_plot', {
+    Highcharts.setOptions({
+        colors: ['#923A48', '#BE5A6A', '#F0DADD']
+    });
+
+
+    Highcharts.chart('tipo_territorio_plot', {
         chart: {        
             type: 'pie'
         },

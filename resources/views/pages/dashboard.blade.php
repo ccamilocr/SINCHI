@@ -18,8 +18,8 @@
     color: #555;
 }
 .legend i {
-    width: 14px;
-    height: 14px;
+    width: 13px;
+    height: 13px;
     float: left;
     margin-right: 8px;
     opacity: 0.7;
@@ -36,6 +36,16 @@
 .info h4 {
     margin: 0 0 5px;
     color: #777;
+}
+
+.indicador{
+	font-size: 25px;
+	text-align: center;
+}
+
+.indicador_valor{
+	color: rgb(148, 58, 74);
+	font-weight: bold;
 }
 </style>
 @endsection
@@ -112,13 +122,49 @@
 		<div id="departamentos_plot" style="height: 400px"></div>
 	</div>
 	<div class="col col-md-6">
+		<div class="header_plot">Distribución por tipo de territorio</div>
+		<div id="tipo_territorio_plot" style="height: 400px"></div>
+	</div>
+</div><br>
+<div class="row">	
+	<div class="col col-md-6">
 		<div class="header_plot">¿A qué se dedica el emprendimiento?</div>
 		<div id="dedicacion_plot" style="height: 400px"></div>
+	</div>
+	<div class="col col-md-6">
+		<div class="header_plot">Distribución por tipo de cultivo</div>
+		<div id="tipo_cultivo_plot" style="height: 400px"></div>
 	</div>
 </div><br>
 <div class="row">
 	<div class="col col-md-12">
-		<div class="header_plot">Listado de emprendimientos</div>
+		<div class="header_plot">Datos agregados de los aprovechamientos</div><br>		
+		<div class="row">
+			<div class="col col-md-4 indicador">
+				<i id="i_empleados" class="indicador_valor">0</i> Empleados<sup>1</sup>
+			</div>
+			<div class="col col-md-4 indicador">
+				<i id="i_asociados" class="indicador_valor">0</i> Asociados<sup>1</sup>
+			</div>
+			<div class="col col-md-4 indicador">
+				<i id="i_familias" class="indicador_valor">0</i> Familias<sup>1</sup>
+			</div>
+			<div class="col col-md-4 indicador">
+				<i id="i_clientes" class="indicador_valor">0</i> Clientes<sup>2</sup>
+			</div>
+			<div class="col col-md-4 indicador">
+				<i id="i_proveedores" class="indicador_valor">0</i> Proovedores<sup>2</sup>
+			</div>
+			<div class="col col-md-4 indicador">
+				<i id="i_ventas" class="indicador_valor">0</i> Ventas Anuales<sup>2</sup>
+			</div>
+		</div><br>
+		<p>Nota: 1. Estos valores presentan la suma de acuerdo a la unidad geográfica seleccionada. 2. Estos valores representan el promedio de acuerdo a la unidad geográfica seleccionada</p>
+	</div>	
+</div><br>
+<div class="row">
+	<div class="col col-md-12">
+		<div class="header_plot">Listado de emprendimientos</div><br>		
 		<div id="table_div"></div>
 	</div>	
 </div><br>
@@ -126,12 +172,16 @@
 @section('js')
 <script type='text/javascript' src="{{ URL::asset('assets/js/colombia_line.js')}}"></script>
 <script type='text/javascript' src="{{ URL::asset('assets/js/deptos.js')}}"></script>
+<script type='text/javascript' src="{{ URL::asset('assets/js/deptos_line.js')}}"></script>
 <script type='text/javascript' src="{{ URL::asset('assets/js/mpios.js')}}"></script>
+
 
 @include('includes.departamentos_plot')
 @include('includes.dedicacion_plot')
 @include('includes.map_dashboard')
 @include('includes.listado')
+@include('includes.tipo_de_territorio')
+@include('includes.tipo_producto')
 
 <script type="text/javascript">
 	$( document ).ready(function() {
@@ -166,6 +216,10 @@
 		});
 	}
 
+	function prettynumber(x) {		
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+
 	function filtros(){
 		var depto=$('#select_depto').prop('selected', 'selected').val();
 		var mpio=$('#select_mpio').prop('selected', 'selected').val();
@@ -192,10 +246,27 @@
 						$('#tittle_dashboard').html('Reporte del departamento de ' + $('#select_depto option[value='+filtros[0]+']').text());
 					}
 				} 
-				load_map(data.reg_per_unidad,filtros);
+				//Las siguietes funciones cargan la informacion de las graficas y los mapas
+				load_map(data.reg_per_unidad,filtros,data.query_unidad_latlong);
 				plot_reg_per_unidad(data.reg_per_unidad,filtros);
-				dedicacion(data.dedicacion_query,filtros);
+				tipo_de_territorio(data.tipo_territorio_query);
+				dedicacion(data.dedicacion_query,filtros);	
+				tipo_producto(data.tipo_cultivo_query);
+				
+				//Actualiza la seccion de indicadores
+				//1. Numero de empleados				
+				$('#i_empleados').html(prettynumber(data.indicadores_query[0].empleadosben));
+				$('#i_asociados').html(prettynumber(data.indicadores_query[0].asociadosben));
+				$('#i_familias').html(prettynumber(data.indicadores_query[0].familiasben));
+				$('#i_clientes').html(prettynumber(parseFloat(data.indicadores_query[0].clientes).toFixed(0)));
+				$('#i_proveedores').html(prettynumber(parseFloat(data.indicadores_query[0].proveedores).toFixed(0)));
+				$('#i_ventas').html("$"+prettynumber(parseFloat(data.indicadores_query[0].ventasanual).toFixed(0)));
+
 				listado_emprendimientos(data.emprendimientos_query,filtros);
+
+
+
+
 			},	    	
 			error:function(){
 				alert('error');

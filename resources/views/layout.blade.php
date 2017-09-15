@@ -9,9 +9,8 @@
     <meta name="author" content="">
     <!-- Leaflet style CSS -->
     <link href="assets/css/leaflet.css" rel="stylesheet">
-    <!-- DataTable style CSS -->
-    <link href="assets/css/dataTables.bootstrap.min.css" rel="stylesheet">
-    
+    <!-- DataTable style CSS -->    
+    <link href="css/dataTables.bootstrap4.css" rel="stylesheet">
     <title>{{ config('app.name', 'Sinchi') }}</title>
 
     <!-- Bootstrap core CSS -->
@@ -46,6 +45,9 @@
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/highchart/js/highcharts.js"></script>
 <script src="assets/js/leaflet.js"></script>
-<script type='text/javascript' src="{{ URL::asset('assets/js/dataTables.bootstrap.js')}}"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.1.1/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.1.1/js/responsive.bootstrap4.min.js"></script>
 @yield('js')
 </html>
