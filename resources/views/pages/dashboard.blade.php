@@ -261,11 +261,8 @@
 				$('#i_clientes').html(prettynumber(parseFloat(data.indicadores_query[0].clientes).toFixed(0)));
 				$('#i_proveedores').html(prettynumber(parseFloat(data.indicadores_query[0].proveedores).toFixed(0)));
 				$('#i_ventas').html("$"+prettynumber(parseFloat(data.indicadores_query[0].ventasanual).toFixed(0)));
-
+				//Actualiza el listado de emprendimientos
 				listado_emprendimientos(data.emprendimientos_query,filtros);
-
-
-
 
 			},	    	
 			error:function(){

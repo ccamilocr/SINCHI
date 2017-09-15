@@ -172,13 +172,13 @@ function load_map(datos,filtros,points){
 
 //DEPARTAMENTOS, MUNICIPIOS INTERACTION AND STYLE
 function deptos_interaction(feature, layer) {
-  var dato="<table class='table table_leaflet'><tr><td class='table_leaflet_tittle'>Departamento:</td><td>" + feature.properties.nombre + "</td></tr><tr><td class='table_leaflet_tittle'>Encuentas:</td><td>" + feature.properties.registros + "</td></tr></table>";  
+  var dato="<table class='table table_leaflet'><tr><td class='table_leaflet_tittle'>Departamento:</td><td>" + feature.properties.nombre + "</td></tr><tr><td class='table_leaflet_tittle'>Encuestas:</td><td>" + feature.properties.registros + "</td></tr></table>";  
   layer.bindTooltip(dato);
   //layer.bindPopup(dato);
 }
 
 function mpios_interaction(feature, layer) {
-  var dato="<table class='table table_leaflet'><tr><td class='table_leaflet_tittle'>Municipio:</td><td>" + feature.properties.nombre_mpio + "</td></tr><tr><td class='table_leaflet_tittle'>Encuentas:</td><td>" + feature.properties.registros + "</td></tr></table>";  
+  var dato="<table class='table table_leaflet'><tr><td class='table_leaflet_tittle'>Municipio:</td><td>" + feature.properties.nombre_mpio + "</td></tr><tr><td class='table_leaflet_tittle'>Encuestas:</td><td>" + feature.properties.registros + "</td></tr></table>";  
   layer.bindTooltip(dato);
   //layer.bindPopup(dato);
 }
